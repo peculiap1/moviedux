@@ -1,11 +1,19 @@
 import * as tf from "@tensorflow/tfjs";
 
-// Genre Mapping
+// Expanded Genre Mapping
 const genreMapping = {
   drama: 0,
   fantasy: 1,
   horror: 2,
   action: 3,
+  thriller: 4,
+  comedy: 5,
+  romance: 6,
+  "sci-fi": 7,
+  documentary: 8,
+  adventure: 9,
+  mystery: 10,
+  animation: 11,
 };
 
 // Create the model (default export)
@@ -26,8 +34,8 @@ export default createModel;
 // Convert movie data into tensors for training
 export const convertDataToTensors = (movieData) => {
   const inputs = movieData.map((movie) => [
-    genreMapping[movie.genre],
-    movie.rating,
+    genreMapping[movie.genre] || 0, // Fallback for unknown genre
+    movie.rating || 5, // Fallback for missing rating
   ]);
   const outputs = movieData.map((movie) => [movie.movieId]);
 
@@ -47,9 +55,14 @@ export const trainModel = async (model, data) => {
 // Predict ratings for the movies in the watchlist
 export const predictRatings = (model, watchlistMovies) => {
   const predictions = watchlistMovies.map((movie) => {
-    const input = tf.tensor2d([[genreMapping[movie.genre], movie.rating]]);
-    const prediction = model.predict(input);
-    return prediction.dataSync()[0];
+    try {
+      const input = tf.tensor2d([[genreMapping[movie.genre], movie.rating]]);
+      const prediction = model.predict(input);
+      return prediction.dataSync()[0];
+    } catch (err) {
+      console.error(`Error in prediction for movie: ${movie.title}`, err);
+      return 0; // Fallback to 0 in case of errors
+    }
   });
 
   return predictions;
@@ -57,24 +70,25 @@ export const predictRatings = (model, watchlistMovies) => {
 
 // Recommend movies based on the watchlist and all available movies
 export const recommendMovies = (model, watchlistMovies, allMovies) => {
-  // Calculate similarity scores based on both genre and rating
   const predictions = allMovies.map((movie) => {
-    // Check similarity between current movie and each watchlist movie
-    let similarityScore = watchlistMovies.reduce((score, watchlistMovie) => {
-      const genreSimilarity =
-        genreMapping[movie.genre] === genreMapping[watchlistMovie.genre]
-          ? 1
-          : 0;
-      const ratingSimilarity =
-        Math.abs(movie.rating - watchlistMovie.rating) < 1 ? 1 : 0;
-
-      return score + genreSimilarity + ratingSimilarity;
-    }, 0);
-
-    // Generate prediction score from the model
-    const input = tf.tensor2d([[genreMapping[movie.genre], movie.rating]]);
-    let modelScore = 0;
     try {
+      // Check similarity between current movie and each watchlist movie
+      const similarityScore = watchlistMovies.reduce(
+        (score, watchlistMovie) => {
+          const genreSimilarity =
+            genreMapping[movie.genre] === genreMapping[watchlistMovie.genre]
+              ? 1
+              : 0;
+          const ratingSimilarity =
+            Math.abs(movie.rating - watchlistMovie.rating) < 1 ? 1 : 0;
+          return score + genreSimilarity + ratingSimilarity;
+        },
+        0
+      );
+
+      // Generate prediction score from the model
+      const input = tf.tensor2d([[genreMapping[movie.genre], movie.rating]]);
+      let modelScore = 0;
       const prediction = model.predict(input);
       modelScore = prediction.dataSync()[0];
 
@@ -82,18 +96,18 @@ export const recommendMovies = (model, watchlistMovies, allMovies) => {
         console.error(`Invalid model score for movie: ${movie.title}`);
         modelScore = 0; // Fallback to 0 if invalid
       }
-    } catch (err) {
-      console.error(`Error in prediction for movie: ${movie.title}`, err);
-      modelScore = 0; // Fallback to 0 if an error occurs
-    }
 
-    return {
-      movieId: movie.movieId,
-      score: modelScore + similarityScore,
-    };
+      return {
+        movieId: movie.movieId,
+        score: modelScore + similarityScore,
+      };
+    } catch (err) {
+      console.error(`Error processing movie: ${movie.title}`, err);
+      return { movieId: movie.movieId, score: 0 }; // Return default score on error
+    }
   });
 
-  // Sort movies by the combined score and add randomness to avoid strict ranking
+  // Sort movies by the combined score and add slight randomness to avoid strict ranking
   return predictions
     .map((rec) => ({
       ...rec,

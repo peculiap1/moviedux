@@ -138,5 +138,145 @@
     "image": "20.jpg",
     "genre": "horror",
     "rating": "7.4"
+  },
+  {
+    "movieId": 21,
+    "title": "The Phantom Horizon",
+    "image": "21.jpg",
+    "genre": "sci-fi",
+    "rating": "8.6"
+  },
+  {
+    "movieId": 22,
+    "title": "Echo of the Void",
+    "image": "22.jpg",
+    "genre": "thriller",
+    "rating": "7.9"
+  },
+  {
+    "movieId": 23,
+    "title": "Cyber Nexus",
+    "image": "23.jpg",
+    "genre": "sci-fi",
+    "rating": "9.2"
+  },
+  {
+    "movieId": 24,
+    "title": "Falling Skies",
+    "image": "24.jpg",
+    "genre": "adventure",
+    "rating": "6.5"
+  },
+  {
+    "movieId": 25,
+    "title": "The Last Oracle",
+    "image": "25.jpg",
+    "genre": "fantasy",
+    "rating": "8.1"
+  },
+  {
+    "movieId": 26,
+    "title": "Underworld Ascendant",
+    "image": "26.jpg",
+    "genre": "horror",
+    "rating": "7.0"
+  },
+  {
+    "movieId": 27,
+    "title": "Silent Reverie",
+    "image": "27.jpg",
+    "genre": "drama",
+    "rating": "9.0"
+  },
+  {
+    "movieId": 28,
+    "title": "Neon Inferno",
+    "image": "28.jpg",
+    "genre": "sci-fi",
+    "rating": "8.0"
+  },
+  {
+    "movieId": 29,
+    "title": "Titan's Shadow",
+    "image": "29.jpg",
+    "genre": "action",
+    "rating": "7.3"
+  },
+  {
+    "movieId": 30,
+    "title": "The Secret Realm",
+    "image": "30.jpg",
+    "genre": "fantasy",
+    "rating": "6.8"
+  },
+  {
+    "movieId": 31,
+    "title": "Mortal Edge",
+    "image": "31.jpg",
+    "genre": "thriller",
+    "rating": "7.6"
+  },
+  {
+    "movieId": 32,
+    "title": "Whispers in the Dark",
+    "image": "32.jpg",
+    "genre": "horror",
+    "rating": "8.5"
+  },
+  {
+    "movieId": 33,
+    "title": "Chronicles of Fate",
+    "image": "33.jpg",
+    "genre": "adventure",
+    "rating": "7.1"
+  },
+  {
+    "movieId": 34,
+    "title": "Frostbound",
+    "image": "34.jpg",
+    "genre": "fantasy",
+    "rating": "8.9"
+  },
+  {
+    "movieId": 35,
+    "title": "The Final Hour",
+    "image": "35.jpg",
+    "genre": "thriller",
+    "rating": "7.4"
+  },
+  {
+    "movieId": 36,
+    "title": "Infernal Machines",
+    "image": "36.jpg",
+    "genre": "sci-fi",
+    "rating": "9.1"
+  },
+  {
+    "movieId": 37,
+    "title": "Red Horizon",
+    "image": "37.jpg",
+    "genre": "action",
+    "rating": "7.7"
+  },
+  {
+    "movieId": 38,
+    "title": "Winds of Change",
+    "image": "38.jpg",
+    "genre": "drama",
+    "rating": "6.7"
+  },
+  {
+    "movieId": 39,
+    "title": "Labyrinth of Shadows",
+    "image": "39.jpg",
+    "genre": "fantasy",
+    "rating": "7.8"
+  },
+  {
+    "movieId": 40,
+    "title": "The Dark Reign",
+    "image": "40.jpg",
+    "genre": "horror",
+    "rating": "8.2"
   }
 ]
