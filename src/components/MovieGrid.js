@@ -59,17 +59,24 @@ export default function MoviesGrid({
         matchesSearchTerm(movie, searchTerm)
     );
 
+    console.log("Initial Filtered Movies:", filtered); // Log initial filtered movies
+
     // If model and watchlist exist, apply recommendations to sorted order
     if (model && watchlist.length > 0) {
       const watchlistMovies = watchlist.map((id) =>
         movies.find((movie) => movie.movieId === id)
       );
 
+      console.log("Watchlist Movies:", watchlistMovies); // Log watchlist movies
+
       const recommendedMoviesList = recommendMovies(
         model,
         watchlistMovies,
         filtered
       );
+
+      console.log("Recommended movies:", recommendedMoviesList); // Log recommended movies
+
       const recommendedIds = recommendedMoviesList.map((rec) => rec.movieId);
 
       // Sort the filtered movies based on recommendedIds
@@ -78,6 +85,8 @@ export default function MoviesGrid({
           recommendedIds.indexOf(a.movieId) - recommendedIds.indexOf(b.movieId)
         );
       });
+
+      console.log("Sorted Filtered Movies:", filtered); // Log the sorted movies
     }
 
     // Update the filteredMovies state
@@ -128,7 +137,7 @@ export default function MoviesGrid({
         {filteredMovies.map((movie) => (
           <MovieCard
             movie={movie}
-            key={movie.movieId}
+            key={movie.movieId || movie.id}
             toggleWatchlist={toggleWatchlist}
             isWatchlisted={watchlist.includes(movie.movieId)}
           />
