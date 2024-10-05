@@ -1,70 +1,56 @@
-# Getting Started with Create React App
+# Moviedux Webapp - README
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Projectoverzicht
 
-## Available Scripts
+Deze POC biedt gepersonaliseerde filmaanbevelingen op basis van machine learning. Gebruikers kunnen films aan hun kijklijst toevoegen, en op basis van hun voorkeuren en eerder toegevoegde films, worden nieuwe films aanbevolen. Het project is gebouwd met React voor de frontend en TensorFlow.js voor de machine learning-component.
 
-In the project directory, you can run:
+### Functies:
 
-### `npm start`
+- **Film zoeken**: Gebruikers kunnen films doorzoeken op basis van genre en beoordelingen.
+- **Kijklijst**: Gebruikers kunnen films toevoegen aan hun persoonlijke kijklijst.
+- **Aanbevelingen**: De webapplicatie gebruikt machine learning om films aan te bevelen die overeenkomen met de genres en beoordelingen van eerder toegevoegde films.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Installatie-instructies
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Volg de onderstaande stappen om het project lokaal op te zetten en uit te voeren:
 
-### `npm test`
+### 1. Dependencies installeren
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Zorg ervoor dat **Node.js** en **npm** geïnstalleerd zijn. Als je die nog niet hebt, kun je Node.js [hier downloaden](https://nodejs.org/).
 
-### `npm run build`
+Na het downloaden van de broncode, navigeer naar de hoofdmap van het project en installeer de benodigde dependencies met:
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+npm install
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Dit installeert de dependencies uit de `package.json`.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Het project draaien
 
-### `npm run eject`
+Om de applicatie lokaal op te starten, gebruik het volgende commando:
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+```bash
+npm start
+```
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Dit zal de development server starten en de webapplicatie beschikbaar maken op http://localhost:3000.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### 3. Machine learning model trainen
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Het TensorFlow.js model wordt automatisch getraind wanneer je de applicatie start en films toevoegt aan je kijklijst.
 
-## Learn More
+## Projectstructuur
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Deze POC project volgt een modulaire structuur:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- **_/src_**: Bevat alle broncode voor de applicatie.
+- **components**: React componenten zoals `MovieGrid`, `MovieCard` en `Watchlist`.
+- `mlModel.js`: Bevat de machine learning logica en TensorFlow.js implementatie.
+- `App.js`: Hoofdbestand van de applicatie dat alle componenten samenvoegt.
+- `movies.json`: Bevat de voorbeeldfilmgegevens die worden gebruikt in de applicatie.
 
-### Code Splitting
+## Machine Learning
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+In deze POC wordt er gebruikt gemaakt van TensorFlow.js voor het trainen van een machine learning model dat films aanbeveelt op basis van genres en beoordelingen. Het model wordt getraind op de films in de `movieData.js` en gebruikt de voorkeuren van de gebruiker om vergelijkbare films te identificeren en een score te geven.
+De films met de hoogste scores worden vervolgens automatisch bovenaan de lijst gepusht.
