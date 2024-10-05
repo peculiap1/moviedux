@@ -18,9 +18,10 @@ Volg de onderstaande stappen om het project lokaal op te zetten en uit te voeren
 
 Zorg ervoor dat **Node.js** en **npm** geïnstalleerd zijn. Als je die nog niet hebt, kun je Node.js [hier downloaden](https://nodejs.org/).
 
-Na het downloaden van de broncode, navigeer naar de hoofdmap van het project en installeer de benodigde dependencies met:
+Na het downloaden van de broncode, navigeer naar de hoofdmap van het project en installeer de benodigde dependencies:
 
 ```bash
+cd moviedux
 npm install
 ```
 
@@ -54,3 +55,7 @@ Deze POC project volgt een modulaire structuur:
 
 In deze POC wordt er gebruikt gemaakt van TensorFlow.js voor het trainen van een machine learning model dat films aanbeveelt op basis van genres en beoordelingen. Het model wordt getraind op de films in de `movieData.js` en gebruikt de voorkeuren van de gebruiker om vergelijkbare films te identificeren en een score te geven.
 De films met de hoogste scores worden vervolgens automatisch bovenaan de lijst gepusht.
+
+## Credits/Bronnen
+
+Verder wil ik vermelden dat het UI-gedeelte van dit project is ontwikkeld met behulp van kennis opgedaan uit een Udemy cursus over React (van Jonas Schmedtmann). Deze cursus heeft me geholpen om de basis van de gebruikersinterface op te zetten en om te gaan met component-gebaseerde ontwikkeling in React. Het toepassen van het machine learning gedeelte, zoals het trainen van het model en de aanbevelingen op basis van de watchlist, heb ik vervolgens zelf uitgevoerd en geïntegreerd in de applicatie.
