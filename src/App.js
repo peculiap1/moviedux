@@ -15,6 +15,13 @@ function App() {
   const [model, setModel] = useState(null);
 
   useEffect(() => {
+    const savedWatchlist = localStorage.getItem("wishlist");
+    if (savedWatchlist) {
+      setWatchlist(JSON.parse(savedWatchlist));
+    }
+  }, []);
+
+  useEffect(() => {
     // Create and train the model when the app loads
     const newModel = createModel();
     trainModel(newModel, movieData).then(() => {
@@ -29,11 +36,15 @@ function App() {
   }, []);
 
   const toggleWatchlist = (movieId) => {
-    setWatchlist((prevWatchlist) =>
-      prevWatchlist.includes(movieId)
+    setWatchlist((prevWatchlist) => {
+      const updatedWatchlist = prevWatchlist.includes(movieId)
         ? prevWatchlist.filter((id) => id !== movieId)
-        : [...prevWatchlist, movieId]
-    );
+        : [...prevWatchlist, movieId];
+
+      localStorage.setItem("wishlist", JSON.stringify(updatedWatchlist));
+
+      return updatedWatchlist;
+    });
   };
 
   const recommendedMovies = model
