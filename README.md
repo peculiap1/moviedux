@@ -53,8 +53,7 @@ Deze POC project volgt een modulaire structuur:
 
 ## Machine Learning
 
-In deze POC wordt er gebruikt gemaakt van TensorFlow.js voor het trainen van een machine learning model dat films aanbeveelt op basis van genres en beoordelingen. Het model wordt getraind op de films in de `movieData.js` en gebruikt de voorkeuren van de gebruiker om vergelijkbare films te identificeren en een score te geven.
-De films met de hoogste scores worden vervolgens automatisch bovenaan de lijst gepusht.
+In deze POC wordt er gebruikt gemaakt van TensorFlow.js voor het trainen van een machine learning-model dat films aanbeveelt op basis van genres en beoordelingen. Het model wordt getraind op de films in de movieData.js en gebruikt de voorkeuren van de gebruiker om vergelijkbare films te identificeren en een score te geven. De films met de hoogste scores worden vervolgens automatisch bovenaan de lijst weergegeven.
 
 ## Credits/Bronnen
 

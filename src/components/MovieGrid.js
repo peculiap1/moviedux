@@ -13,83 +13,57 @@ export default function MoviesGrid({
   const [genre, setGenre] = useState("All Genres");
   const [rating, setRating] = useState("All");
   const [filteredMovies, setFilteredMovies] = useState(movies);
+  const [genreFrequency, setGenreFrequency] = useState({});
 
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-  const handleGenreChange = (e) => {
-    setGenre(e.target.value);
-  };
-  const handleRatingChange = (e) => {
-    setRating(e.target.value);
-  };
+  const handleSearchChange = (e) => setSearchTerm(e.target.value);
+  const handleGenreChange = (e) => setGenre(e.target.value);
+  const handleRatingChange = (e) => setRating(e.target.value);
 
-  const matchesGenre = (movie, genre) => {
-    return (
-      genre === "All Genres" ||
-      movie.genre.toLowerCase() === genre.toLowerCase()
-    );
-  };
-
-  const matchesSearchTerm = (movie, searchTerm) => {
-    return movie.title.toLowerCase().includes(searchTerm.toLowerCase());
-  };
-
-  const matchesRating = (movie, rating) => {
-    switch (rating) {
-      case "All":
-        return true;
-      case "Good":
-        return movie.rating >= 8;
-      case "Ok":
-        return movie.rating >= 5 && movie.rating < 8;
-      case "Bad":
-        return movie.rating < 5;
-      default:
-        return false;
-    }
-  };
+  // Update genre frequency whenever watchlist changes
+  useEffect(() => {
+    const frequency = {};
+    watchlist.forEach((id) => {
+      const movie = movies.find((movie) => movie.movieId === id);
+      if (movie) {
+        const genre = movie.genre;
+        frequency[genre] = (frequency[genre] || 0) + 1;
+      }
+    });
+    setGenreFrequency(frequency);
+  }, [watchlist, movies]);
 
   useEffect(() => {
-    // Filter based on search, genre, and rating
     let filtered = movies.filter(
       (movie) =>
-        matchesGenre(movie, genre) &&
-        matchesRating(movie, rating) &&
-        matchesSearchTerm(movie, searchTerm)
+        (genre === "All Genres" || movie.genre === genre) &&
+        (rating === "All" ||
+          (rating === "Good" && movie.rating >= 8) ||
+          (rating === "Ok" && movie.rating >= 5 && movie.rating < 8) ||
+          (rating === "Bad" && movie.rating < 5)) &&
+        movie.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
-    console.log("Initial Filtered Movies:", filtered); // Log initial filtered movies
-
-    // If model and watchlist exist, apply recommendations to sorted order
     if (model && watchlist.length > 0) {
       const watchlistMovies = watchlist.map((id) =>
         movies.find((movie) => movie.movieId === id)
       );
 
-      console.log("Watchlist Movies:", watchlistMovies); // Log watchlist movies
-
       const recommendedMoviesList = recommendMovies(
         model,
         watchlistMovies,
-        filtered
+        filtered,
+        genreFrequency // Pass the genre frequency
       );
-
-      console.log("Recommended movies:", recommendedMoviesList); // Log recommended movies
 
       const recommendedIds = recommendedMoviesList.map((rec) => rec.movieId);
 
-      // Sort the filtered movies based on recommendedIds
       filtered = filtered.sort((a, b) => {
         return (
           recommendedIds.indexOf(a.movieId) - recommendedIds.indexOf(b.movieId)
         );
       });
-
-      console.log("Sorted Filtered Movies:", filtered); // Log the sorted movies
     }
 
-    // Update the filteredMovies state
     setFilteredMovies(filtered);
   }, [movies, watchlist, searchTerm, genre, rating, model]);
 

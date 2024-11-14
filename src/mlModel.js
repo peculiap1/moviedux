@@ -69,10 +69,14 @@ export const predictRatings = (model, watchlistMovies) => {
 };
 
 // Recommend movies based on the watchlist and all available movies
-export const recommendMovies = (model, watchlistMovies, allMovies) => {
+export const recommendMovies = (
+  model,
+  watchlistMovies,
+  allMovies,
+  genreFrequency
+) => {
   const predictions = allMovies.map((movie) => {
     try {
-      // Check similarity between current movie and each watchlist movie
       const similarityScore = watchlistMovies.reduce(
         (score, watchlistMovie) => {
           const genreSimilarity =
@@ -86,7 +90,8 @@ export const recommendMovies = (model, watchlistMovies, allMovies) => {
         0
       );
 
-      // Generate prediction score from the model
+      const genreBoost = genreFrequency[movie.genre] || 0;
+
       const input = tf.tensor2d([[genreMapping[movie.genre], movie.rating]]);
       let modelScore = 0;
       const prediction = model.predict(input);
@@ -94,24 +99,23 @@ export const recommendMovies = (model, watchlistMovies, allMovies) => {
 
       if (isNaN(modelScore)) {
         console.error(`Invalid model score for movie: ${movie.title}`);
-        modelScore = 0; // Fallback to 0 if invalid
+        modelScore = 0;
       }
 
       return {
         movieId: movie.movieId,
-        score: modelScore + similarityScore,
+        score: modelScore + similarityScore + genreBoost,
       };
     } catch (err) {
       console.error(`Error processing movie: ${movie.title}`, err);
-      return { movieId: movie.movieId, score: 0 }; // Return default score on error
+      return { movieId: movie.movieId, score: 0 };
     }
   });
 
-  // Sort movies by the combined score and add slight randomness to avoid strict ranking
   return predictions
     .map((rec) => ({
       ...rec,
-      score: rec.score + Math.random() * 0.1, // Add slight randomness
+      score: rec.score + Math.random() * 0.1,
     }))
-    .sort((a, b) => b.score - a.score); // Sort by the new score
+    .sort((a, b) => b.score - a.score);
 };
